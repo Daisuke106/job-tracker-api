@@ -41,12 +41,15 @@ func main() {
 	jobUC := usecase.NewJobUsecase(jobRepo)
 
 	// Handlers
+	healthH := handler.NewHealthHandler(database)
 	authH := handler.NewAuthHandler(authUC)
 	companyH := handler.NewCompanyHandler(companyUC)
 	jobH := handler.NewJobHandler(jobUC)
 	interviewH := handler.NewInterviewHandler()
 
 	r := gin.Default()
+
+	r.GET("/health", healthH.Check)
 
 	api := r.Group("/api/v1")
 	{
