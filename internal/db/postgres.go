@@ -1,39 +1,28 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
-	"os"
 
+	"job-tracker-api/internal/config"
+
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
-func NewPostgresDB() (*sql.DB, error) {
-	host := os.Getenv("DB_HOST")
-	port := os.Getenv("DB_PORT")
-	user := os.Getenv("DB_USER")
-	password := os.Getenv("DB_PASSWORD")
-	dbname := os.Getenv("DB_NAME")
-	sslmode := os.Getenv("DB_SSLMODE")
-
+func NewPostgresDB(cfg *config.DBConfig) (*sqlx.DB, error) {
 	dsn := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		host,
-		port,
-		user,
-		password,
-		dbname,
-		sslmode,
+		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name, cfg.SSLMode,
 	)
 
-	database, err := sql.Open("postgres", dsn)
+	db, err := sqlx.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := database.Ping(); err != nil {
+	if err := db.Ping(); err != nil {
 		return nil, err
 	}
 
-	return database, nil
+	return db, nil
 }
