@@ -9,6 +9,7 @@ import (
 	"job-tracker-api/internal/middleware"
 	"job-tracker-api/internal/repository"
 	"job-tracker-api/internal/usecase"
+	"job-tracker-api/migrations"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -24,6 +25,10 @@ func main() {
 		log.Fatal("failed to connect database:", err)
 	}
 	defer database.Close()
+
+	if err := db.RunMigrations(database, migrations.FS); err != nil {
+		log.Fatal("failed to run migrations:", err)
+	}
 
 	// Repositories
 	userRepo := repository.NewUserRepository(database)
