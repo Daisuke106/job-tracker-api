@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS interview_notes;
+DROP TABLE IF EXISTS interviews;
+DROP TABLE IF EXISTS jobs;
+DROP TABLE IF EXISTS companies;
+DROP TABLE IF EXISTS users;

@@ -1,8 +1,0 @@
-CREATE TABLE IF NOT EXISTS companies (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  industry VARCHAR(100),
-  website_url TEXT,
-  memo TEXT,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
