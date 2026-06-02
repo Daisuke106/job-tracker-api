@@ -1,15 +1,33 @@
-.PHONY: up down restart run build \
+.PHONY: up down restart logs \
+        docker-build docker-up docker-down docker-logs \
+        run build \
         migrate-up migrate-down migrate-version migrate-force migrate-create
 
-# ── Docker ────────────────────────────────────────────
+# ── ローカル開発（DB のみ）────────────────────────────
 up:
-	docker-compose up -d
+	docker-compose up -d db
 
 down:
 	docker-compose down
 
 restart:
-	docker-compose down && docker-compose up -d
+	docker-compose down && docker-compose up -d db
+
+logs:
+	docker-compose logs -f db
+
+# ── Docker フルスタック（DB + app）────────────────────
+docker-build:
+	docker-compose build app
+
+docker-up:
+	docker-compose up -d
+
+docker-down:
+	docker-compose down
+
+docker-logs:
+	docker-compose logs -f app
 
 # ── アプリ ────────────────────────────────────────────
 run:
